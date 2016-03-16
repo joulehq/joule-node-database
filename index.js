@@ -34,7 +34,7 @@ module.exports = JouleNodeDatabase = function(bucket, prefix) {
       s3.getObject(getObjectParams(key), function(err, data) {
         var str;
         if(err) {
-          if(err.statusCode === 403) {
+          if(err.statusCode === 403 || err.statusCode === 404) {
             fulfill(null);
           } else {
             reject(err);
