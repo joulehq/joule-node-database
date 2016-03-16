@@ -12,7 +12,7 @@ if(fs.existsSync(envFile)) {
 }
 
 var JouleNodeDatabaseTest = require('./../index');
-var testDb = new JouleNodeDatabaseTest(process.env.DB_BUCKET, process.env.DB_PREFIX);
+var testDb = new JouleNodeDatabaseTest(process.env.DB_NAME, process.env.DB_PREFIX);
 
 testDb.set('test', {foo: 'bar'})
   .done(function(data) {
