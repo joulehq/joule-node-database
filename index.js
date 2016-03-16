@@ -34,7 +34,11 @@ module.exports = JouleNodeDatabase = function(bucket, prefix) {
       s3.getObject(getObjectParams(key), function(err, data) {
         var str;
         if(err) {
-          reject(err);
+          if(err.statusCode === 403) {
+            fulfill(null);
+          } else {
+            reject(err);
+          }
         } else {
           str = data.Body.toString('utf8');
           fulfill(JSON.parse(str));
