@@ -1,6 +1,6 @@
 {
   "name": "joule-node-database",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A database module for joules",
   "main": "index.js",
   "dependencies": {
