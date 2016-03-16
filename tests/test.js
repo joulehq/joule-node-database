@@ -12,15 +12,18 @@ if(fs.existsSync(envFile)) {
 }
 
 var JouleNodeDatabaseTest = require('./../index');
-var testDb = new JouleNodeDatabaseTest(process.env.DB_BUCKET, process.env.DB_PREFIX, process.env.DB_REGION);
+var testDb = new JouleNodeDatabaseTest(process.env.DB_BUCKET, process.env.DB_PREFIX);
 
-
-testDb.get('test')
+testDb.set('test', {foo: 'bar'})
   .done(function(data) {
     console.log(data);
-    data['date'] = (new Date()).toString();
-    testDb.set('test', data)
+    testDb.get('test')
       .done(function(data) {
         console.log(data);
+        data['date'] = (new Date()).toString();
+        testDb.set('test', data)
+          .done(function(data) {
+            console.log(data);
+          });
       });
   });

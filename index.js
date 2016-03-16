@@ -1,10 +1,9 @@
 var AWS = require('aws-sdk')
     , Promise = require('promise');
 
-module.exports = JouleNodeDatabase = function(bucket, prefix, region) {
+module.exports = JouleNodeDatabase = function(bucket, prefix) {
   var bucket = bucket
       , prefix = prefix
-      , region = region
       , s3;
 
   var init = function() {
