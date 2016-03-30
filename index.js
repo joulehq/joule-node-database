@@ -1,7 +1,9 @@
 var AWS = require('aws-sdk')
-    , Promise = require('promise');
+    , Promise = require('promise')
+    , JouleNodeDatabase
+    , JouleNodeDatabaseLocal;
 
-module.exports = JouleNodeDatabase = function() {
+JouleNodeDatabase = function() {
   var bucket = process.env.DB_NAME
       , prefix = process.env.DB_PREFIX
       , s3;
@@ -61,3 +63,33 @@ module.exports = JouleNodeDatabase = function() {
 
   init();
 };
+
+JouleNodeDatabaseLocal = function() {
+  var database = {};
+  this.get = function(key) {
+    return new Promise(function(fulfill, reject) {
+      if(typeof(database[key]) === 'undefined') {
+        fulfill(null);
+      } else {
+        fulfill(database[key]);
+      }
+    });
+  };
+
+  this.set = function(key, value) {
+    return new Promise(function(fulfill, reject) {
+      if(typeof(key) !== 'string') {
+        fulfill(null);
+      } else {
+        database[key] = value;
+        fulfill(database[key]);
+      }
+    });
+  };
+};
+
+if(process.env.hasOwnProperty('DB_LOCAL')) {
+  module.exports = JouleNodeDatabaseLocal;
+} else {
+  module.exports = JouleNodeDatabase;
+}
